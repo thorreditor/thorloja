@@ -1,1 +1,348 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<title>THOR EDITOR - Loja de Edição de Vídeo</title>
+<style>
+  * {
+    box-sizing: border-box;
+    margin: 0;
+    padding: 0;
+    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+  }
 
+  body {
+    background: #000;
+    color: #eee;
+    min-height: 100vh;
+    display: flex;
+    flex-direction: column;
+    overflow-x: hidden;
+  }
+
+  header {
+    padding: 20px 40px;
+    background: #111;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    border-bottom: 2px solid #800000;
+    animation: fadeInDown 1s ease-out;
+  }
+
+  @keyframes fadeInDown {
+    from { opacity: 0; transform: translateY(-50px); }
+    to { opacity: 1; transform: translateY(0); }
+  }
+
+  header h1 {
+    font-weight: 700;
+    font-size: 1.8rem;
+    color: #e53935;
+    letter-spacing: 2px;
+    animation: pulse 2s infinite;
+  }
+
+  @keyframes pulse {
+    0%, 100% { transform: scale(1); }
+    50% { transform: scale(1.05); }
+  }
+
+  nav button {
+    background: #e53935;
+    border: none;
+    color: #fff;
+    padding: 12px 20px;
+    cursor: pointer;
+    font-weight: 700;
+    border-radius: 4px;
+    text-transform: uppercase;
+    margin-left: 12px;
+    width: 120px;
+    height: 44px;
+    transition: background 0.3s, transform 0.2s, box-shadow 0.3s;
+  }
+
+  nav button:hover {
+    background: #b71c1c;
+    transform: scale(1.1);
+    box-shadow: 0 0 15px #e53935aa;
+  }
+
+  main {
+    flex: 1;
+    padding: 40px 20px;
+    max-width: 1200px;
+    margin: 0 auto;
+    animation: fadeInUp 1s ease-out;
+  }
+
+  @keyframes fadeInUp {
+    from { opacity: 0; transform: translateY(50px); }
+    to { opacity: 1; transform: translateY(0); }
+  }
+
+  h2 {
+    font-size: 2rem;
+    margin-bottom: 24px;
+    color: #e53935;
+    border-left: 6px solid #e53935;
+    padding-left: 12px;
+    animation: slideInLeft 1s ease-out;
+  }
+
+  @keyframes slideInLeft {
+    from { transform: translateX(-100px); opacity: 0; }
+    to { transform: translateX(0); opacity: 1; }
+  }
+
+  .pacotes {
+    display: flex;
+    gap: 24px;
+    flex-wrap: wrap;
+    justify-content: center;
+  }
+
+  .pacote {
+    background: #111;
+    border: 2px solid #800000;
+    padding: 24px;
+    border-radius: 8px;
+    width: 280px;
+    box-shadow: 0 0 20px #33000055;
+    transition: transform 0.3s, box-shadow 0.3s, background 0.3s;
+    animation: fadeSlideUp 1s ease-out forwards;
+    opacity: 0;
+  }
+
+  @keyframes fadeSlideUp {
+    from { opacity: 0; transform: translateY(40px); }
+    to { opacity: 1; transform: translateY(0); }
+  }
+
+  .pacote:hover {
+    transform: translateY(-10px) scale(1.05);
+    box-shadow: 0 0 30px #e53935aa;
+    background: #1a1a1a;
+  }
+
+  .pacote h3 {
+    margin-bottom: 16px;
+    font-size: 1.4rem;
+    color: #f44336;
+    animation: bounceIn 1s;
+  }
+
+  @keyframes bounceIn {
+    0% { transform: scale(0.5); opacity: 0; }
+    50% { transform: scale(1.1); opacity: 1; }
+    100% { transform: scale(1); }
+  }
+
+  .pacote p, .preco {
+    line-height: 1.4;
+    color: #ccc;
+    animation: fadeIn 1s;
+  }
+
+  @keyframes fadeIn {
+    from { opacity: 0; }
+    to { opacity: 1; }
+  }
+
+  .preco {
+    font-size: 1.8rem;
+    color: #e53935;
+    margin-top: 10px;
+    margin-bottom: 20px;
+    text-align: center;
+  }
+
+  .btn-comprar {
+    background: #e53935;
+    border: none;
+    padding: 14px 0;
+    font-weight: 700;
+    font-size: 1.1rem;
+    color: #fff;
+    cursor: pointer;
+    border-radius: 4px;
+    width: 100%;
+    text-transform: uppercase;
+    transition: background 0.3s, transform 0.2s;
+  }
+
+  .btn-comprar:hover {
+    background: #b71c1c;
+    transform: scale(1.1);
+  }
+
+  .sobre, .contato form {
+    background: #111;
+    border: 2px solid #800000;
+    padding: 30px;
+    border-radius: 8px;
+    color: #ddd;
+    line-height: 1.5;
+    margin: 30px auto;
+    animation: fadeInUp 1s ease-out;
+  }
+
+  .contato label {
+    color: #e53935;
+    font-weight: 600;
+    margin-top: 10px;
+  }
+
+  .contato input, .contato textarea {
+    width: 100%;
+    padding: 10px 12px;
+    margin-bottom: 18px;
+    border: 1px solid #800000;
+    border-radius: 4px;
+    background: #222;
+    color: #eee;
+  }
+
+  .contato button {
+    background: #e53935;
+    border: none;
+    padding: 14px 20px;
+    font-weight: 700;
+    color: #fff;
+    cursor: pointer;
+    width: 100%;
+    border-radius: 4px;
+    text-transform: uppercase;
+    font-size: 1.1rem;
+    transition: background 0.3s, transform 0.2s;
+  }
+
+  .contato button:hover {
+    background: #b71c1c;
+    transform: scale(1.05);
+  }
+
+  footer {
+    text-align: center;
+    padding: 20px;
+    font-size: 0.9rem;
+    color: #444;
+    border-top: 1px solid #222;
+    margin-top: 40px;
+  }
+
+  @media (max-width: 960px) {
+    .pacotes {
+      flex-direction: column;
+      align-items: center;
+    }
+
+    nav button {
+      width: 100px;
+      padding: 10px;
+      font-size: 0.9rem;
+    }
+  }
+</style>
+</head>
+<body>
+
+<header>
+  <h1>THOR EDITOR</h1>
+  <nav>
+    <button onclick="scrollToSection('pacotes')">Pacotes</button>
+    <button onclick="scrollToSection('sobre')">Sobre</button>
+    <button onclick="scrollToSection('contato')">Contato</button>
+  </nav>
+</header>
+
+<main>
+  <section id="pacotes">
+    <h2>Pacotes de Edição de Vídeo</h2>
+    <div class="pacotes">
+      <article class="pacote">
+        <h3>Vídeo Curto</h3>
+        <p>Edição rápida e objetiva, ideal para redes sociais.</p>
+        <div class="preco">R$ 2,00</div>
+        <button class="btn-comprar" onclick="comprarWhatsApp('Vídeo Curto')">Quero esse</button>
+      </article>
+
+      <article class="pacote">
+        <h3>5 Minutos</h3>
+        <p>Edição padrão com cortes, efeitos simples e transições suaves.</p>
+        <div class="preco">R$ 5,00</div>
+        <button class="btn-comprar" onclick="comprarWhatsApp('5 Minutos')">Quero esse</button>
+      </article>
+
+      <article class="pacote">
+        <h3>10 Minutos</h3>
+        <p>Mais efeitos, correção de cor, trilhas sonoras e detalhamento maior.</p>
+        <div class="preco">R$ 10,00</div>
+        <button class="btn-comprar" onclick="comprarWhatsApp('10 Minutos')">Quero esse</button>
+      </article>
+
+      <article class="pacote">
+        <h3>20 Minutos</h3>
+        <p>Edição avançada com efeitos, zooms, legendas e mais atenção aos detalhes.</p>
+        <div class="preco">R$ 20,00</div>
+        <button class="btn-comprar" onclick="comprarWhatsApp('20 Minutos')">Quero esse</button>
+      </article>
+
+      <article class="pacote">
+        <h3>30 Minutos a 1 Hora</h3>
+        <p>Pacote completo com tratamento profissional, efeitos complexos e narrativa fluida.</p>
+        <div class="preco">R$ 60,00</div>
+        <button class="btn-comprar" onclick="comprarWhatsApp('30 Minutos a 1 Hora')">Quero esse</button>
+      </article>
+    </div>
+  </section>
+
+  <section id="sobre" class="sobre">
+    <h2>Sobre o THOR EDITOR</h2>
+    <p>Sou um editor solo, apaixonado por transformar vídeos comuns em conteúdos profissionais e impactantes. Cada projeto tem minha dedicação total, com foco em qualidade, criatividade e resultado.</p>
+  </section>
+
+  <section id="contato" class="contato">
+    <h2>Fale Comigo</h2>
+    <form onsubmit="enviarFormulario(event)">
+      <label for="nome">Nome</label>
+      <input type="text" id="nome" name="nome" placeholder="Seu nome" required />
+
+      <label for="email">E-mail</label>
+      <input type="email" id="email" name="email" placeholder="seu@email.com" required />
+
+      <label for="mensagem">Mensagem</label>
+      <textarea id="mensagem" name="mensagem" rows="5" placeholder="Escreva sua mensagem..." required></textarea>
+
+      <button type="submit">Enviar</button>
+    </form>
+  </section>
+</main>
+
+<footer>
+  &copy; 2025 THOR EDITOR - Todos os direitos reservados.
+</footer>
+
+<script>
+  function scrollToSection(id) {
+    document.getElementById(id).scrollIntoView({ behavior: 'smooth' });
+  }
+
+  function comprarWhatsApp(pacote) {
+    const numero = "555499826364";
+    const texto = encodeURIComponent(`Olá! Estou interessado no pacote: ${pacote}. Podemos conversar?`);
+    const url = `https://wa.me/${numero}?text=${texto}`;
+    window.open(url, '_blank');
+  }
+
+  function enviarFormulario(event) {
+    event.preventDefault();
+    alert('Mensagem enviada com sucesso! Obrigado pelo contato.');
+    event.target.reset();
+  }
+</script>
+
+</body>
+</html>
